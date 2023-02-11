@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from rest_framework import serializers
 
 from apps.barbers.models import BarberImage, Barber
@@ -27,37 +28,24 @@ class BarberSerializer(serializers.ModelSerializer):
 			'reviews',
 		)
 		read_only_fields = ('id',)
-		depth = 1
+		depth = 2
 	
 	@staticmethod
 	def get_reviews(self):
-		bookings = Booking.objects.all()
-		reviews = []
-		for booking in bookings:
-			if booking.review_id:
-				if self.id == booking.barber_id:
-					reviews.append(booking.review_id)
-		# reviews = [booking.review_id for booking in obj.booking_set.all() if booking.review_id and self.id == booking.a_id]
+		bookings = Booking.objects.filter(barber_id=self.id)
+		reviews = bookings.values('id', 'user_id', 'review_id__review_text', 'created_at')
 		return reviews
 	
 	@staticmethod
 	def get_overall_rating(self):
-		bookings = Booking.objects.all()
-		overall_rating = 0
-		count = 0
-		for booking in bookings:
-			if booking.rate:
-				overall_rating += booking.rate
-				count += 1
-		if count > 0:
-			overall_rating = overall_rating / count
+		bookings = Booking.objects.filter(barber_id=self.id)
+		overall_rating = bookings.aggregate(Avg('rate'))
 		return overall_rating
-	
-	# def create(self, validated_data):
+
+# def create(self, validated_data):
 	# 	return Barber.objects.create(**validated_data)
 	#
 	# def update(self, instance, validated_data):
 	# 	instance.overall_rating = self.get_overall_rating(instance)
 	# 	instance.save()
 	# 	return instance
-	
