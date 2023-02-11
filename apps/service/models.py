@@ -16,7 +16,7 @@ class Service(models.Model):
 
 # Create your models here.
 class ServiceImage(models.Model):
-	image = models.ImageField(upload_to='service_images')
+	image = models.ImageField(upload_to='service_images/')
 	service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='service_images')
 
 	class Meta:
