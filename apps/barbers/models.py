@@ -1,16 +1,20 @@
 from django.db import models
+from django.utils.safestring import mark_safe
 
 
 class BarberImage(models.Model):
 	image = models.ImageField(upload_to='barbers_images/')
-	
-	class Meta:
-		ordering = ['-id']
-	
+
 	def __str__(self):
 		return f'id-{self.id}'
+	
+	# save image with generated name
+	def save(self, *args, **kwargs):
+		self.image.name = f'barber.jpg'
+		super().save(*args, **kwargs)
 
 
+# https://codinggear.blog/how-to-show-image-in-django-admin/#register-the-model
 # Create your models here.
 class Barber(models.Model):
 	name = models.CharField(max_length=100)
@@ -23,4 +27,3 @@ class Barber(models.Model):
 	
 	def __str__(self):
 		return self.name
-	

@@ -11,7 +11,7 @@ class Service(models.Model):
 		ordering = ['-id']
 	
 	def __str__(self):
-		return self.title
+		return f'id-{self.id} {self.title}'
 	
 
 # Create your models here.
@@ -24,3 +24,8 @@ class ServiceImage(models.Model):
 
 	def __str__(self):
 		return f'Image of {self.service.title}, id-{self.id}'
+	
+	def save(self, *args, **kwargs):
+		self.image.name = f'{self.service.title}.jpg'
+		super().save(*args, **kwargs)
+		

@@ -28,13 +28,15 @@ SECRET_KEY = 'django-insecure-x_njit1y*zxt-zx&-i!ktv8nnt=(ihy5bawu@c$thf%t662cvp
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+DEBUG404 = True
 
 ALLOWED_HOSTS = ['*']
-
+CURRENT_HOST = 'http://127.0.0.1:8001/'
 
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,6 +63,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #add it exactlyhere
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     "corsheaders.middleware.CorsMiddleware",
@@ -161,6 +164,10 @@ CORS_ALLOW_METHODS = [
     "POST",
     "PUT",
 ]
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 # REST FRAMEWORK
 REST_FRAMEWORK = {
