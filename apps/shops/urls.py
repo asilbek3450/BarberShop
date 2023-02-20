@@ -1,7 +1,12 @@
 from django.urls import path, include
 
 from apps.shops.views import ShopViewSet
+from shared.rest_framework.router import OptionalSlashRouter
+
+router = OptionalSlashRouter()
+
+router.register('shop', ShopViewSet, 'shop')
 
 urlpatterns = [
-	path('', ShopViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'})),
+	path('', include(router.urls))
 ]

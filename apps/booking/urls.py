@@ -1,8 +1,13 @@
 from django.urls import path, include
 
 from apps.booking.views import BookingViewSet, PromocodeViewSet
+from shared.rest_framework.router import OptionalSlashRouter
+
+router = OptionalSlashRouter()
+
+router.register('booking', BookingViewSet, 'booking')
+router.register('promocode', PromocodeViewSet, 'promocode')
 
 urlpatterns = [
-	path('', BookingViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'})),
-	path('promocodes/', PromocodeViewSet.as_view({'get': 'list', 'post': 'create'})),
+	path('', include(router.urls))
 ]

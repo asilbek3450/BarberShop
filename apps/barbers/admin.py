@@ -7,8 +7,14 @@ from .models import Barber, BarberImage
 
 class BarberImageAdmin(admin.ModelAdmin):
 	list_display = [
-		"id", "show_image"
+		"id", "name", "show_image"
 	]
+	search_fields = [
+		"id",
+	]
+	
+	def name(self, obj):
+		return obj.image.name
 	
 	def show_image(self, obj):
 		if obj.image:
@@ -20,6 +26,9 @@ class BarberImageAdmin(admin.ModelAdmin):
 
 class BarberAdmin(admin.ModelAdmin):
 	list_display = ('id', 'name', 'show_image', 'description')
+	search_fields = [
+		"id", "name"
+	]
 	
 	def show_image(self, obj):
 		if obj.image:

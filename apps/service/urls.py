@@ -1,7 +1,13 @@
-from django.urls import path
+from django.urls import path, include
 
 from apps.service.views import ServiceViewSet
+from shared.rest_framework.router import OptionalSlashRouter
+
+router = OptionalSlashRouter()
+
+router.register('service', ServiceViewSet, 'service')
 
 urlpatterns = [
-	path('', ServiceViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'})),
+	path('', include(router.urls))
+	
 ]

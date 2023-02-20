@@ -41,11 +41,3 @@ class BarberSerializer(serializers.ModelSerializer):
 		bookings = Booking.objects.filter(barber_id=self.id)
 		overall_rating = bookings.aggregate(Avg('rate'))
 		return overall_rating
-
-# def create(self, validated_data):
-	# 	return Barber.objects.create(**validated_data)
-	#
-	# def update(self, instance, validated_data):
-	# 	instance.overall_rating = self.get_overall_rating(instance)
-	# 	instance.save()
-	# 	return instance

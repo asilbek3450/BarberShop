@@ -5,7 +5,7 @@ class Service(models.Model):
 	title = models.CharField(max_length=100)
 	description = models.TextField()
 	price = models.IntegerField()
-	duration = models.IntegerField()
+	duration = models.IntegerField('duration (minut)', default=30)
 	
 	class Meta:
 		ordering = ['-id']
